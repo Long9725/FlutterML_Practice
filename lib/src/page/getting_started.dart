@@ -48,10 +48,25 @@ class _GettingStartedPageState extends State<GettingStartedPage> {
   }
 
   Widget SlideItem(int index) {
-    return Container(
-      height: 200,
-      width: 200,
-      child: Lottie.asset(slideList[index].imageUrl),
+    return Column(
+      children: <Widget>[
+        Container(
+          height: 200,
+          width: 200,
+          child: Lottie.asset(slideList[index].imageUrl),
+        ),
+        const SizedBox(height: 40),
+        Text("안녕하세요",
+            style: TextStyle(
+              fontSize: 22,
+              color: Theme.of(context).primaryColor,
+            )),
+        const SizedBox(height: 10),
+        Text(
+          "2022 DoiT! Flutter를 연습하는 중입니다",
+          textAlign: TextAlign.center,
+        )
+      ],
     );
   }
 }
