@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key, required this.title}) : super(key: key);
+class GettingStartedPage extends StatefulWidget {
+  const GettingStartedPage({Key? key, required this.title}) : super(key: key);
 
   final String title;
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<GettingStartedPage> createState() => _GettingStartedPageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _GettingStartedPageState extends State<GettingStartedPage> {
   bool _show = false;
 
   @override
