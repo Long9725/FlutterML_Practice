@@ -1,6 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import 'package:lottie/lottie.dart';
+
+import 'package:practice1/src/model/slide.dart';
 
 class GettingStartedPage extends StatefulWidget {
   const GettingStartedPage({Key? key, required this.title}) : super(key: key);
@@ -12,19 +16,42 @@ class GettingStartedPage extends StatefulWidget {
 }
 
 class _GettingStartedPageState extends State<GettingStartedPage> {
+  int _currentPage = 0;
+  final PageController _pageController = PageController(initialPage: 0);
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _pageController.dispose();
+  }
+
+  _onPageChanged(int index) {
+    setState(() {
+      _currentPage = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView(
-        scrollDirection: Axis.horizontal,
-        children: <Widget>[Row(
-            children: <Widget>[
-              Lottie.asset('assets/lotties/getting-started-coch.json'),
-              Lottie.asset('assets/lotties/getting-started-lifestyle.json'),
-              Lottie.asset('assets/lotties/getting-started-treadmill.json'),
-            ]
-        ),
-      ]),
+        body: PageView.builder(
+            scrollDirection: Axis.horizontal,
+            controller: _pageController,
+            onPageChanged: _onPageChanged,
+            itemCount: slideList.length,
+            itemBuilder: (context, index) => SlideItem(index)));
+  }
+
+  Widget SlideItem(int index) {
+    return Container(
+      height: 200,
+      width: 200,
+      child: Lottie.asset(slideList[index].imageUrl),
     );
   }
 }

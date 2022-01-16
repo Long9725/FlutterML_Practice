@@ -11,9 +11,9 @@ class Slide {
 }
 
 final slideList = [
-  Slide(imageUrl: 'assets/lottie/getting-started-coch.json'),
-  Slide(imageUrl: 'assets/lottie/getting-started-lifestyle.json'),
-  Slide(imageUrl: 'assets/lottie/getting-started-treadmill.json'),
+  Slide(imageUrl: 'assets/lotties/getting-started-coch.json'),
+  Slide(imageUrl: 'assets/lotties/getting-started-lifestyle.json'),
+  Slide(imageUrl: 'assets/lotties/getting-started-treadmill.json'),
 ];
 
 // final slideList = [
