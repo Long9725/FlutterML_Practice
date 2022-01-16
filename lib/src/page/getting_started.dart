@@ -15,9 +15,16 @@ class _GettingStartedPageState extends State<GettingStartedPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        child: Lottie.asset('assets/lotties/getting-started-coch.json'),
-      ),
+      body: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+            children: <Widget>[
+              Lottie.asset('assets/lotties/getting-started-coch.json'),
+              Lottie.asset('assets/lotties/getting-started-lifestyle.json'),
+              Lottie.asset('assets/lotties/getting-started-treadmill.json'),
+            ]
+        ),
+      )
     );
   }
 }
