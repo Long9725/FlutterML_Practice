@@ -5,16 +5,14 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-void main() => runApp(const AnimatedContainerApp());
-
-class AnimatedContainerApp extends StatefulWidget {
-  const AnimatedContainerApp({Key? key}) : super(key: key);
+class AnimationContainerPage extends StatefulWidget {
+  const AnimationContainerPage({Key? key}) : super(key: key);
 
   @override
-  _AnimatedContainerAppState createState() => _AnimatedContainerAppState();
+  _AnimationContainerPageState createState() => _AnimationContainerPageState();
 }
 
-class _AnimatedContainerAppState extends State<AnimatedContainerApp> {
+class _AnimationContainerPageState extends State<AnimationContainerPage> {
   // Define the various properties with default values. Update these properties
   // when the user taps a FloatingActionButton.
   double _width = 50;
@@ -24,8 +22,7 @@ class _AnimatedContainerAppState extends State<AnimatedContainerApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
+    return Scaffold(
         appBar: AppBar(
           title: const Text('AnimatedContainer Demo'),
         ),
@@ -71,7 +68,6 @@ class _AnimatedContainerAppState extends State<AnimatedContainerApp> {
           },
           child: const Icon(Icons.play_arrow),
         ),
-      ),
-    );
+      );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:practice1/src/page/animation/container.dart';
 import 'package:practice1/src/page/animation/cross_fade.dart';
 import 'package:practice1/src/page/animation/size.dart';
 
@@ -14,7 +15,8 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final pageList = {
     'size': AnimationSizePage(),
-    'cross_fade': AnimationCrossFadePage()
+    'cross_fade': AnimationCrossFadePage(),
+    'container': AnimationContainerPage()
   };
 
   @override
