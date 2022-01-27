@@ -13,31 +13,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final pageList = {
-    'size': AnimationSizePage(),
-    'cross_fade': AnimationCrossFadePage(),
-    'container': AnimationContainerPage()
-  };
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: GridView.builder(
-            itemCount: pageList.length,
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 3,
-              childAspectRatio: 1 / 2,
-              mainAxisSpacing: 10,
-              crossAxisSpacing: 10,
-            ),
-            itemBuilder: (BuildContext context, int index) {
-              return OutlinedButton(
-                  onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) =>
-                            pageList.values.elementAt(index)));
-                  },
-                  child: Text(pageList.keys.elementAt(index)));
-            }));
+    return Scaffold(body: Center(child: Text("Home")));
   }
 }
