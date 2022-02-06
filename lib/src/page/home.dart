@@ -1,8 +1,11 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:practice1/src/helper.dart';
 import 'package:practice1/src/page/result.dart';
+import 'package:practice1/src/provider/firebase.dart';
 
 import 'package:practice1/src/service/auth.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key, required this.title}) : super(key: key);
@@ -86,8 +89,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   bool _isMessageAvailable = false;
   bool _isVerificationAvailable = false;
   bool _isVerification = false;
-
-  AuthService _auth = AuthService();
+  //
+  // AuthService _auth = AuthService();
 
   @override
   void initState() {
@@ -107,6 +110,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    final _auth = Provider.of<FirebaseProvider>(context);
     return Scaffold(
         body: SafeArea(
             child: GestureDetector(
@@ -118,8 +122,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         buildDescriptionBox(),
-                        buildMessageBox(),
-                        buildVerificationBox()
+                        buildMessageBox(_auth),
+                        buildVerificationBox(_auth)
                       ],
                     )))));
   }
@@ -160,7 +164,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         ));
   }
 
-  Widget buildMessageBox() {
+  Widget buildMessageBox(FirebaseProvider _auth) {
     return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
       TextField(
         decoration: const InputDecoration(
@@ -221,7 +225,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     ]);
   }
 
-  Widget buildVerificationBox() {
+  Widget buildVerificationBox(FirebaseProvider _auth) {
     return AnimatedSize(
         duration: const Duration(milliseconds: 100),
         curve: Curves.fastOutSlowIn,

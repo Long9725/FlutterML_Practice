@@ -1,6 +1,9 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
+import 'package:provider/provider.dart';
+
+import 'package:practice1/src/provider/firebase.dart';
 import 'package:practice1/src/page/getting_started.dart';
 import 'package:practice1/src/screen/splash.dart';
 
@@ -21,16 +24,20 @@ class MyApp extends StatelessWidget {
           );
         }
         if (snapshot.connectionState == ConnectionState.done) {
-          return MaterialApp(
-            title: 'Flutter Demo',
-            debugShowCheckedModeBanner: false,
-            theme: ThemeData(
-              primarySwatch: Colors.blue,
-            ),
-            home: HomePage(
-              title: "",
-            ),
-          );
+          return MultiProvider(
+              providers: [
+                ChangeNotifierProvider(create: (_) => FirebaseProvider())
+              ],
+              child: MaterialApp(
+                title: 'Flutter Demo',
+                debugShowCheckedModeBanner: false,
+                theme: ThemeData(
+                  primarySwatch: Colors.blue,
+                ),
+                home: HomePage(
+                  title: "",
+                ),
+              ));
         }
         return CircularProgressIndicator();
       },

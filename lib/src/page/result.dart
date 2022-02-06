@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:practice1/src/provider/firebase.dart';
 import 'package:practice1/src/service/auth.dart';
+import 'package:provider/provider.dart';
 
 class ResultPage extends StatefulWidget {
   @override
@@ -7,10 +9,11 @@ class ResultPage extends StatefulWidget {
 }
 
 class ResultPageState extends State<ResultPage> {
-  AuthService _auth = AuthService();
+  // AuthService _auth = AuthService();
 
   @override
   Widget build(BuildContext context) {
+    final _auth = Provider.of<FirebaseProvider>(context);
     return Scaffold(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
