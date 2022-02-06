@@ -59,6 +59,7 @@
 import 'package:flutter/material.dart';
 import 'package:practice1/src/helper.dart';
 import 'package:practice1/src/page/getting_started.dart';
+import 'package:practice1/src/page/home.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -67,24 +68,47 @@ class SplashScreen extends StatefulWidget {
   State<SplashScreen> createState() => SplashScreenState();
 }
 
-class SplashScreenState extends State<SplashScreen> {
+class SplashScreenState extends State<SplashScreen>
+    with TickerProviderStateMixin {
+  late AnimationController controller;
+  late Animation<double> animation;
+
   bool _toggle = false;
+  bool _logoToggle = false;
 
   @override
   void initState() {
     super.initState();
 
+    controller =
+        AnimationController(vsync: this, duration: const Duration(seconds: 2));
+    animation = Tween<double>(begin: 1.0, end: 1.2).animate(controller);
+    animation.addListener(() {
+      setState(() {});
+    });
+
     Future.delayed(const Duration(seconds: 1))
         .then((value) => setState(() {
               _toggle = !_toggle;
             }))
-        .then((value) => Future.delayed(const Duration(seconds: 5))
-            .then((value) => Navigator.of(context).pushAndRemoveUntil(
-                MaterialPageRoute(
-                    builder: (context) => const GettingStartedPage(
-                          title: '',
-                        )),
-                (route) => false)));
+        .then((value) => Future.delayed(const Duration(milliseconds: 1500))
+            .then((value) => setState(() {
+                  _logoToggle = !_logoToggle;
+                }))
+            .then((value) => Future.delayed(const Duration(seconds: 2))
+                .then((value) => controller.forward())
+                .then((value) => Future.delayed(const Duration(milliseconds: 500))
+                    .then((value) => Navigator.of(context).pushAndRemoveUntil(
+                        MaterialPageRoute(
+                            builder: (context) => HomePage(title: "")),
+                        (route) => false)))));
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+
+    controller.dispose();
   }
 
   @override
@@ -116,7 +140,22 @@ class SplashScreenState extends State<SplashScreen> {
                         : CrossFadeState.showSecond,
                     alignment: Alignment.centerLeft,
                     secondCurve: Curves.easeInOut,
-                    duration: const Duration(seconds: 1))
+                    duration: const Duration(seconds: 1)),
+                const SizedBox(
+                  height: kDefaultPadding,
+                  width: kDefaultPadding,
+                ),
+                Transform.scale(
+                  scale: animation.value,
+                  child: AnimatedContainer(
+                      duration: const Duration(seconds: 2),
+                      height: !_logoToggle ? 0 : 75,
+                      width: !_logoToggle ? 0 : 75,
+                      child: Image.asset(
+                        'assets/images/doitlogo-removebg.png',
+                        color: Colors.white,
+                      )),
+                )
               ],
             ))));
   }
