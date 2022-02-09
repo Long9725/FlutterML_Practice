@@ -1,8 +1,9 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+
 import 'package:practice1/src/helper.dart';
 import 'package:practice1/src/page/result.dart';
-import 'package:practice1/src/provider/firebase.dart';
+import 'package:practice1/src/provider/firebase_auth.dart';
 
 import 'package:practice1/src/service/auth.dart';
 import 'package:provider/provider.dart';
@@ -16,72 +17,6 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-// TextEditingController _phoneNumberEditingController = TextEditingController();
-// TextEditingController _smsCodeEditingController = TextEditingController();
-//
-// AuthService _auth = AuthService();
-//
-// bool _isVerify = false;
-//
-// @override
-// void dispose() {
-//   super.dispose();
-//
-//   _phoneNumberEditingController.dispose();
-//   _smsCodeEditingController.dispose();
-// }
-//
-// @override
-// Widget build(BuildContext context) {
-//   return Scaffold(
-//     body: Padding(
-//       padding: const EdgeInsets.all(kDefaultPadding),
-//       child: Column(
-//         mainAxisAlignment: MainAxisAlignment.center,
-//         children: [
-//           TextField(
-//             controller: _phoneNumberEditingController,
-//           ),
-//           const SizedBox(
-//             height: kDefaultPadding,
-//           ),
-//           OutlinedButton(
-//               onPressed: () async {
-//                 await _auth
-//                     .verifyPhoneNumber(_phoneNumberEditingController.text);
-//               },
-//               child: Text("전화번호 입력")),
-//           const SizedBox(
-//             height: kDefaultPadding,
-//           ),
-//           TextField(
-//             controller: _smsCodeEditingController,
-//           ),
-//           const SizedBox(
-//             height: kDefaultPadding,
-//           ),
-//           OutlinedButton(
-//               onPressed: () async {
-//                 await _auth
-//                     .signInWithPhoneNumber(_smsCodeEditingController.text);
-//                 setState(() {
-//                   _isVerify = !_isVerify;
-//                 });
-//               },
-//               child: Text("인증번호 입력")),
-//           Visibility(
-//               visible: _isVerify,
-//               child: Column(
-//                 children: [
-//                   Text(_auth.getUser()?.uid ?? "none user"),
-//                   Text(_auth.getUser()?.phoneNumber ?? "none user"),
-//                 ],
-//               ))
-//         ],
-//       ),
-//     ),
-//   );
-// }
 class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   late AnimationController _animatedController;
   final _phoneNumberEditingController = TextEditingController();
@@ -89,7 +24,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   bool _isMessageAvailable = false;
   bool _isVerificationAvailable = false;
   bool _isVerification = false;
-  //
+
   // AuthService _auth = AuthService();
 
   @override
@@ -110,7 +45,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    final _auth = Provider.of<FirebaseProvider>(context);
+    final _auth = Provider.of<FirebaseAuthProvider>(context);
     return Scaffold(
         body: SafeArea(
             child: GestureDetector(
@@ -164,7 +99,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         ));
   }
 
-  Widget buildMessageBox(FirebaseProvider _auth) {
+  Widget buildMessageBox(FirebaseAuthProvider _auth) {
     return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
       TextField(
         decoration: const InputDecoration(
@@ -207,12 +142,33 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                   ),
                   onPressed: _isMessageAvailable
                       ? () async {
+                          // showToast(_auth.getLastFirebaseMessage());
                           await _auth
                               .verifyPhoneNumber(
                                   _phoneNumberEditingController.text)
-                              .then((value) => setState(() {
+                              .whenComplete(() => setState(() {
                                     _isVerification = true;
                                   }));
+                          // await _auth
+                          //     .verifyPhoneNumber(
+                          //         _phoneNumberEditingController.text)
+                          //     .whenComplete(() => Future.delayed(
+                          //             const Duration(seconds: 5))
+                          //         .then((value) => {
+                          //               if (_auth.getLastFirebaseMessage() ==
+                          //                   "")
+                          //                 {
+                          //                   setState(() {
+                          //                     _isVerification = true;
+                          //                   })
+                          //                 }
+                          //               else
+                          //                 {
+                          //                   showToast(
+                          //                       _auth.getLastFirebaseMessage())
+                          //                 }
+                          //             }));
+                          // print(_auth.getLastFirebaseMessage() + "end");
                         }
                       : () {},
                   child: const Text(
@@ -225,7 +181,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     ]);
   }
 
-  Widget buildVerificationBox(FirebaseProvider _auth) {
+  Widget buildVerificationBox(FirebaseAuthProvider _auth) {
     return AnimatedSize(
         duration: const Duration(milliseconds: 100),
         curve: Curves.fastOutSlowIn,
@@ -273,33 +229,33 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                       child: SizedBox(
                           height: 44,
                           child: OutlinedButton(
-                              style: ButtonStyle(
-                                foregroundColor: MaterialStateProperty.all(
-                                    const Color(0xFFF0F0F0)),
-                                backgroundColor: MaterialStateProperty.all(
-                                    _isVerificationAvailable
-                                        ? kPrimaryColor
-                                        : Colors.grey[500]),
+                            style: ButtonStyle(
+                              foregroundColor: MaterialStateProperty.all(
+                                  const Color(0xFFF0F0F0)),
+                              backgroundColor: MaterialStateProperty.all(
+                                  _isVerificationAvailable
+                                      ? kPrimaryColor
+                                      : Colors.grey[500]),
+                            ),
+                            onPressed: _isVerificationAvailable
+                                ? () async {
+                                    await _auth
+                                        .signInWithPhoneNumber(
+                                            _verificationEditingController.text)
+                                        .then((value) => Navigator.of(context)
+                                            .push(MaterialPageRoute(
+                                                builder: (context) =>
+                                                    ResultPage())));
+                                  }
+                                : () {},
+                            child: const Text(
+                              "인증문자 확인",
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
                               ),
-                              onPressed: _isVerificationAvailable
-                                  ? () async {
-                                      await _auth
-                                          .signInWithPhoneNumber(
-                                              _verificationEditingController
-                                                  .text)
-                                          .then((value) => Navigator.of(context)
-                                              .push(MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      ResultPage())));
-                                    }
-                                  : () {},
-                              child: const Text(
-                                "인증문자 확인",
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ))))
+                            ),
+                          )))
                 ])));
   }
 }

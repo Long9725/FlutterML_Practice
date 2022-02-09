@@ -1,11 +1,10 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
-import 'package:provider/provider.dart';
-
-import 'package:practice1/src/provider/firebase.dart';
 import 'package:practice1/src/page/getting_started.dart';
+import 'package:practice1/src/provider/firebase_auth.dart';
 import 'package:practice1/src/screen/splash.dart';
+import 'package:provider/provider.dart';
 
 import './page/home.dart';
 
@@ -26,7 +25,7 @@ class MyApp extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.done) {
           return MultiProvider(
               providers: [
-                ChangeNotifierProvider(create: (_) => FirebaseProvider())
+                ChangeNotifierProvider(create: (_) => FirebaseAuthProvider())
               ],
               child: MaterialApp(
                 title: 'Flutter Demo',
