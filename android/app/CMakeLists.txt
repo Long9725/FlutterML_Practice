@@ -1,9 +1,6 @@
-cmake_minimum_required(VERSION 3.4.1) # for example
-
-add_library( native_add
-
-    # Sets the library as a shared library.
-    SHARED
-
-    # Provides a relative path to your source file(s).
-    ../../ios/Classes/native_add.cpp )
+cmake_minimum_required(VERSION 3.4.1)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../include)
+add_library(lib_opencv SHARED IMPORTED)
+set_target_properties(lib_opencv PROPERTIES IMPORTED_LOCATION ${CMAKE_CURRENT_SOURCE_DIR}/src/main/jniLibs/libs/${ANDROID_ABI}/libopencv_java4.so)
+add_library(native_opencv SHARED ../../ios/Classes/native_opencv.cpp)
+target_link_libraries(native_opencv lib_opencv)

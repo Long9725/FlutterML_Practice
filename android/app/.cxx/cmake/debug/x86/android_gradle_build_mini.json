@@ -9,12 +9,14 @@
   ],
   "buildTargetsCommand": "C:\\Users\\JangSeongHo\\AppData\\Local\\Android\\sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe  -C \"C:\\Users\\JangSeongHo\\StudioProjects\\practice1\\android\\app\\.cxx\\cmake\\debug\\x86\" {LIST_OF_TARGETS_TO_BUILD}",
   "libraries": {
-    "native_add-Debug-x86": {
-      "artifactName": "native_add",
-      "buildCommand": "C:\\Users\\JangSeongHo\\AppData\\Local\\Android\\sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe -C \"C:\\Users\\JangSeongHo\\StudioProjects\\practice1\\android\\app\\.cxx\\cmake\\debug\\x86\" native_add",
+    "native_opencv-Debug-x86": {
+      "artifactName": "native_opencv",
+      "buildCommand": "C:\\Users\\JangSeongHo\\AppData\\Local\\Android\\sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe -C \"C:\\Users\\JangSeongHo\\StudioProjects\\practice1\\android\\app\\.cxx\\cmake\\debug\\x86\" native_opencv",
       "abi": "x86",
-      "output": "C:\\Users\\JangSeongHo\\StudioProjects\\practice1\\build\\app\\intermediates\\cmake\\debug\\obj\\x86\\libnative_add.so",
-      "runtimeFiles": []
+      "output": "C:\\Users\\JangSeongHo\\StudioProjects\\practice1\\build\\app\\intermediates\\cmake\\debug\\obj\\x86\\libnative_opencv.so",
+      "runtimeFiles": [
+        "C:\\Users\\JangSeongHo\\StudioProjects\\practice1\\android\\app\\src\\main\\jniLibs\\libs\\x86\\libopencv_java4.so"
+      ]
     }
   }
 }

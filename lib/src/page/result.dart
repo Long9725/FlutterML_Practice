@@ -1,12 +1,15 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:practice1/src/model/movie.dart';
-import 'package:practice1/src/provider/firebase_firestore.dart';
+
+import 'dart:async';
+import 'dart:io';
+import 'dart:isolate';
+
+import 'package:file_picker/file_picker.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
+
+import 'package:practice1/main.dart';
 import 'package:practice1/src/service/native_add.dart';
-
-import 'package:provider/provider.dart';
-
-import 'package:practice1/src/provider/firebase_auth.dart';
 
 class ResultPage extends StatefulWidget {
   @override
@@ -14,80 +17,122 @@ class ResultPage extends StatefulWidget {
 }
 
 class ResultPageState extends State<ResultPage> {
+  final _picker = ImagePicker();
+
+  bool _isProcessed = false;
+  bool _isWorking = false;
+
+  void showVersion() {
+    final scaffoldMessenger = ScaffoldMessenger.of(context);
+    final snackbar = SnackBar(
+      content: Text('OpenCV version: ${opencvVersion()}'),
+    );
+
+    scaffoldMessenger
+      ..removeCurrentSnackBar(reason: SnackBarClosedReason.dismiss)
+      ..showSnackBar(snackbar);
+  }
+
+  Future<String?> pickAnImage() async {
+    if (Platform.isIOS || Platform.isAndroid) {
+      return _picker
+          .pickImage(
+            source: ImageSource.gallery,
+            imageQuality: 100,
+          )
+          .then((v) => v?.path);
+    } else {
+      return FilePicker.platform
+          .pickFiles(
+            dialogTitle: 'Pick an image',
+            type: FileType.image,
+            allowMultiple: false,
+          )
+          .then((v) => v?.files.first.path);
+    }
+  }
+
+  Future<void> takeImageAndProcess() async {
+    final imagePath = await pickAnImage();
+
+    if (imagePath == null) {
+      return;
+    }
+
+    setState(() {
+      _isWorking = true;
+    });
+
+    // Creating a port for communication with isolate and arguments for entry point
+    final port = ReceivePort();
+    final args = ProcessImageArguments(imagePath, tempPath);
+
+    // Spawning an isolate
+    Isolate.spawn<ProcessImageArguments>(
+      processImage,
+      args,
+      onError: port.sendPort,
+      onExit: port.sendPort,
+    );
+
+    // Making a variable to store a subscription in
+    late StreamSubscription sub;
+
+    // Listening for messages on port
+    sub = port.listen((_) async {
+      // Cancel a subscription after message received called
+      await sub.cancel();
+
+      setState(() {
+        _isProcessed = true;
+        _isWorking = false;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    final _auth = Provider.of<FirebaseAuthProvider>(context);
-    final _firestore = Provider.of<FirebaseFirestoreProvider>(context);
     return Scaffold(
-        body: Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Text(_auth.getUser()?.uid ?? "none"),
-          Text(_auth.getUser()?.phoneNumber ?? "None"),
-          OutlinedButton(
-              onPressed: () async {
-                CollectionReference users =
-                    _firestore.getFirestoreInstance().collection('users');
-                String documentId =
-                    (await users.snapshots().first).docs.first.id;
-                // print((await _firestore.readData('users', documentId)));
-
-                await _firestore.deleteData('users', documentId);
-              },
-              child: Text("Firestore")),
-          Text('1+2 == ${nativeAdd(1, 2)}'),
-          // OutlinedButton(
-          //     onPressed: () async {
-          //       // Map<String, Object?> data = {
-          //       //   'title': 'Eternals',
-          //       //   'genre': 'Action'
-          //       // };
-          //       // Map<String, Object?> data2 = {
-          //       //   'title': 'LaLa Land',
-          //       //   'genre': 'Romance'
-          //       // };
-          //       // final moviesRef = await _firestore.withConverter<Movie>(
-          //       //     'movies', Movie.fromJson, data);
-          //       // moviesRef.firestore;
-          //
-          //       // equal below
-          //       //
-          //       // final moviesRef = await _firestore.withConverter<Movie>(
-          //       //     'movies',
-          //       //     Movie.fromJson,
-          //       //     Movie(
-          //       //             title: 'Star Wars: A New Hope (Episode IV)',
-          //       //             genre: 'Sci-fi')
-          //       //         .toJson());
-          //
-          //       // add
-          //       // await moviesRef.add(
-          //       //   Movie(
-          //       //       title: 'Star Wars: A New Hope (Episode IV)',
-          //       //       genre: 'Sci-fi'),
-          //       // );
-          //
-          //       // get
-          //       // String genre = (await moviesRef
-          //       //         .snapshots(includeMetadataChanges: true)
-          //       //         .first)
-          //       //     .docs
-          //       //     .first
-          //       //     .get('genre');
-          //       // print(genre);
-          //
-          //       // update
-          //       // _firestore.updateData('movies', (await moviesRef.snapshots().first).docs.first.id, data2);
-          //
-          //       // delete
-          //       _firestore.deleteData('movies',(await moviesRef.snapshots().first).docs.first.id);
-          //
-          //     },
-          //     child: Text("Movies"))
+      body: Stack(
+        children: <Widget>[
+          Center(
+            child: ListView(
+              shrinkWrap: true,
+              children: <Widget>[
+                if (_isProcessed && !_isWorking)
+                  ConstrainedBox(
+                    constraints: BoxConstraints(maxWidth: 3000, maxHeight: 300),
+                    child: Image.file(
+                      File(tempPath),
+                      alignment: Alignment.center,
+                    ),
+                  ),
+                Column(
+                  children: [
+                    ElevatedButton(
+                      child: Text('Show version'),
+                      onPressed: showVersion,
+                    ),
+                    ElevatedButton(
+                      child: Text('Process photo'),
+                      onPressed: takeImageAndProcess,
+                    ),
+                  ],
+                )
+              ],
+            ),
+          ),
+          if (_isWorking)
+            Positioned.fill(
+              child: Container(
+                color: Colors.black.withOpacity(.7),
+                child: Center(
+                  child: CircularProgressIndicator(),
+                ),
+              ),
+            ),
         ],
       ),
-    ));
+    );
   }
 }

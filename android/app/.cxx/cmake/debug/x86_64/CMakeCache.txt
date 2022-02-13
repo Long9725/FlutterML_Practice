@@ -24,6 +24,9 @@ ANDROID_NDK:UNINITIALIZED=C:\Users\JangSeongHo\AppData\Local\Android\sdk\ndk\21.
 ANDROID_PLATFORM:UNINITIALIZED=android-19
 
 //No help, variable specified on the command line.
+ANDROID_STL:UNINITIALIZED=c++_shared
+
+//No help, variable specified on the command line.
 CMAKE_ANDROID_ARCH_ABI:UNINITIALIZED=x86_64
 
 //No help, variable specified on the command line.
@@ -52,7 +55,7 @@ CMAKE_CXX_COMPILER_AR:FILEPATH=CMAKE_CXX_COMPILER_AR-NOTFOUND
 CMAKE_CXX_COMPILER_RANLIB:FILEPATH=CMAKE_CXX_COMPILER_RANLIB-NOTFOUND
 
 //Flags used by the compiler during all build types.
-CMAKE_CXX_FLAGS:STRING=
+CMAKE_CXX_FLAGS:STRING=-frtti -fexceptions -std=c++11
 
 //Flags used by the compiler during debug builds.
 CMAKE_CXX_FLAGS_DEBUG:STRING=
@@ -204,8 +207,8 @@ CMAKE_SYSTEM_NAME:UNINITIALIZED=Android
 //No help, variable specified on the command line.
 CMAKE_SYSTEM_VERSION:UNINITIALIZED=19
 
-//The CMake toolchain file
-CMAKE_TOOLCHAIN_FILE:FILEPATH=C:/Users/JangSeongHo/AppData/Local/Android/Sdk/ndk/21.1.6352462/build/cmake/android.toolchain.cmake
+//No help, variable specified on the command line.
+CMAKE_TOOLCHAIN_FILE:UNINITIALIZED=C:\Users\JangSeongHo\AppData\Local\Android\sdk\ndk\21.1.6352462\build\cmake\android.toolchain.cmake
 
 //If this value is on, makefiles will be generated without the
 // .SILENT directive, and all commands will be echoed to the console
@@ -219,8 +222,8 @@ Project_BINARY_DIR:STATIC=C:/Users/JangSeongHo/StudioProjects/practice1/android/
 //Value Computed by CMake
 Project_SOURCE_DIR:STATIC=C:/Users/JangSeongHo/StudioProjects/practice1/android/app
 
-//Dependencies for target
-native_add_LIB_DEPENDS:STATIC=
+//Dependencies for the target
+native_opencv_LIB_DEPENDS:STATIC=general;lib_opencv;
 
 
 ########################

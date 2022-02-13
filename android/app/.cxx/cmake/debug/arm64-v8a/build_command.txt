@@ -1,6 +1,7 @@
                 Executable : C:\Users\JangSeongHo\AppData\Local\Android\sdk\cmake\3.10.2.4988404\bin\cmake.exe
 arguments : 
 -HC:\Users\JangSeongHo\StudioProjects\practice1\android\app
+-DCMAKE_CXX_FLAGS=-frtti -fexceptions -std=c++11
 -DCMAKE_FIND_ROOT_PATH=C:\Users\JangSeongHo\StudioProjects\practice1\android\app\.cxx\cmake\debug\prefab\arm64-v8a\prefab
 -DCMAKE_BUILD_TYPE=Debug
 -DCMAKE_TOOLCHAIN_FILE=C:\Users\JangSeongHo\AppData\Local\Android\sdk\ndk\21.1.6352462\build\cmake\android.toolchain.cmake
@@ -14,6 +15,7 @@ arguments :
 -DCMAKE_MAKE_PROGRAM=C:\Users\JangSeongHo\AppData\Local\Android\sdk\cmake\3.10.2.4988404\bin\ninja.exe
 -DCMAKE_SYSTEM_NAME=Android
 -DCMAKE_SYSTEM_VERSION=19
+-DANDROID_STL=c++_shared
 -BC:\Users\JangSeongHo\StudioProjects\practice1\android\app\.cxx\cmake\debug\arm64-v8a
 -GNinja
 jvmArgs : 

@@ -1,3 +1,4 @@
 # ninja log v5
-0	102	666429052	CMakeFiles/native_add.dir/C_/Users/JangSeongHo/StudioProjects/practice1/ios/Classes/native_add.cpp.o	4f7ec39828890005
-103	202	666429052	C:/Users/JangSeongHo/StudioProjects/practice1/build/app/intermediates/cmake/debug/obj/x86/libnative_add.so	279f5d80f5541207
+1	2262	666461332	CMakeFiles/native_opencv.dir/C_/Users/JangSeongHo/StudioProjects/practice1/ios/Classes/native_opencv.cpp.o	410cd0671a0fb0b9
+2267	3127	666461333	C:/Users/JangSeongHo/StudioProjects/practice1/build/app/intermediates/cmake/debug/obj/x86/libnative_opencv.so	4e32d1a5dc934dd2
+5	630	666461593	C:/Users/JangSeongHo/StudioProjects/practice1/build/app/intermediates/cmake/debug/obj/x86/libnative_opencv.so	89149a5b75be5a49

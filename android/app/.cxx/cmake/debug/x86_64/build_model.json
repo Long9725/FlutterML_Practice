@@ -20,6 +20,10 @@
       "cmakeExecutable": "C:\\Users\\JangSeongHo\\AppData\\Local\\Android\\sdk\\cmake\\3.10.2.4988404\\bin\\cmake.exe",
       "variables": [
         {
+          "name": "CMAKE_CXX_FLAGS",
+          "value": "-frtti -fexceptions -std\u003dc++11"
+        },
+        {
           "name": "CMAKE_FIND_ROOT_PATH",
           "value": "C:\\Users\\JangSeongHo\\StudioProjects\\practice1\\android\\app\\.cxx\\cmake\\debug\\prefab\\x86_64\\prefab"
         },
@@ -70,6 +74,10 @@
         {
           "name": "CMAKE_SYSTEM_VERSION",
           "value": "19"
+        },
+        {
+          "name": "ANDROID_STL",
+          "value": "c++_shared"
         }
       ]
     }
@@ -83,12 +91,16 @@
   },
   "originalCxxBuildFolder": "C:\\Users\\JangSeongHo\\StudioProjects\\practice1\\android\\app\\.cxx\\cmake\\debug\\x86_64",
   "variant": {
-    "buildSystemArgumentList": [],
+    "buildSystemArgumentList": [
+      "-DANDROID_STL\u003dc++_shared"
+    ],
     "buildTargetSet": [],
     "implicitBuildTargetSet": [],
     "cFlagsList": [],
     "cmakeSettingsConfiguration": "android-gradle-plugin-predetermined-name",
-    "cppFlagsList": [],
+    "cppFlagsList": [
+      "-frtti -fexceptions -std\u003dc++11"
+    ],
     "isDebuggableEnabled": true,
     "module": {
       "buildSystem": "CMAKE",
