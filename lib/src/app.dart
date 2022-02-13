@@ -2,7 +2,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 import 'package:practice1/src/page/getting_started.dart';
+import 'package:practice1/src/page/result.dart';
 import 'package:practice1/src/provider/firebase_auth.dart';
+import 'package:practice1/src/provider/firebase_firestore.dart';
 import 'package:practice1/src/screen/splash.dart';
 import 'package:provider/provider.dart';
 
@@ -25,7 +27,8 @@ class MyApp extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.done) {
           return MultiProvider(
               providers: [
-                ChangeNotifierProvider(create: (_) => FirebaseAuthProvider())
+                ChangeNotifierProvider(create: (_) => FirebaseAuthProvider()),
+                Provider(create: (_) => FirebaseFirestoreProvider()),
               ],
               child: MaterialApp(
                 title: 'Flutter Demo',
@@ -33,9 +36,7 @@ class MyApp extends StatelessWidget {
                 theme: ThemeData(
                   primarySwatch: Colors.blue,
                 ),
-                home: HomePage(
-                  title: "",
-                ),
+                home: ResultPage(),
               ));
         }
         return CircularProgressIndicator();
