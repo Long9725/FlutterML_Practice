@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:practice1/src/model/movie.dart';
 import 'package:practice1/src/provider/firebase_firestore.dart';
+import 'package:practice1/src/service/native_add.dart';
 
 import 'package:provider/provider.dart';
 
@@ -35,7 +36,8 @@ class ResultPageState extends State<ResultPage> {
 
                 await _firestore.deleteData('users', documentId);
               },
-              child: Text("Firestore"))
+              child: Text("Firestore")),
+          Text('1+2 == ${nativeAdd(1, 2)}'),
           // OutlinedButton(
           //     onPressed: () async {
           //       // Map<String, Object?> data = {
