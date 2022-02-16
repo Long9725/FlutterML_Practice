@@ -1,4 +1,3 @@
 # ninja log v5
-1	2327	666461326	CMakeFiles/native_opencv.dir/C_/Users/JangSeongHo/StudioProjects/practice1/ios/Classes/native_opencv.cpp.o	171a71ee013126a6
-2332	2727	666461326	C:/Users/JangSeongHo/StudioProjects/practice1/build/app/intermediates/cmake/debug/obj/armeabi-v7a/libnative_opencv.so	734ac3ab6240015b
-9	462	666461592	C:/Users/JangSeongHo/StudioProjects/practice1/build/app/intermediates/cmake/debug/obj/armeabi-v7a/libnative_opencv.so	24f948d2c51478cb
+0	1827	666728906	CMakeFiles/native_opencv.dir/C_/Users/JangSeongHo/StudioProjects/Face_overlay_filter/ios/Classes/native_opencv.cpp.o	129d360083d8c977
+1831	1966	666728906	C:/Users/JangSeongHo/StudioProjects/Face_overlay_filter/build/app/intermediates/cmake/debug/obj/armeabi-v7a/libnative_opencv.so	e1eadf053dd036f3
